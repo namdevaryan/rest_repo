@@ -1,0 +1,42 @@
+name: CI Pipeline
+
+on:
+  push:
+    paths:
+      - 'code/**'  # Sirf code/ folder mein changes hone par trigger hoga
+  workflow_dispatch:  # Manual trigger ke liye
+
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted  # Aapka self-hosted runner
+
+    steps:
+      # Step 1: Repository ka code checkout karein
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Build API
+      - name: Build API
+        run: make build-api
+
+      # Step 3: Run tests
+      - name: Run tests
+        run: make run-tests
+
+      # Step 4: Lint code
+      - name: Lint code
+        run: make lint-code
+
+      # Step 5: Docker image build karein
+      - name: Build Docker image
+        run: make docker-build
+
+      # Step 6: Purana container stop aur remove karein (agar running hai)
+      - name: Stop and remove existing container
+        run: |
+          docker stop my-api-container || true
+          docker rm my-api-container || true
+
+      # Step 7: Naya container start karein
+      - name: Run Docker container
+        run: make docker-run
