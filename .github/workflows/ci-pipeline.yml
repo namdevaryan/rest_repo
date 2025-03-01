@@ -3,15 +3,15 @@ name: CI Pipeline
 on:
   push:
     paths:
-      - 'code/**'  # Sirf code/ folder mein changes hone par trigger hoga
-  workflow_dispatch:  # Manual trigger ke liye
+      - 'code/**'  # Trigger only when changes are made in the code directory
+  workflow_dispatch:  # Allow manual triggering
 
 jobs:
   build-and-deploy:
-    runs-on: self-hosted  # Aapka self-hosted runner
+    runs-on: self-hosted  # Use self-hosted runner
 
     steps:
-      # Step 1: Repository ka code checkout karein
+      # Step 1: Checkout code
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -23,20 +23,21 @@ jobs:
       - name: Run tests
         run: make run-tests
 
-      # Step 4: Lint code
+      # Step 4: Perform code linting
       - name: Lint code
         run: make lint-code
 
-      # Step 5: Docker image build karein
-      - name: Build Docker image
+      # Step 5: Docker login
+      - name: Docker login
+        run: make docker-login
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Step 6: Docker build
+      - name: Docker build
         run: make docker-build
 
-      # Step 6: Purana container stop aur remove karein (agar running hai)
-      - name: Stop and remove existing container
-        run: |
-          docker stop my-api-container || true
-          docker rm my-api-container || true
-
-      # Step 7: Naya container start karein
-      - name: Run Docker container
-        run: make docker-run
+      # Step 7: Docker push
+      - name: Docker push
+        run: make docker-push
