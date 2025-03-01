@@ -1,19 +1,19 @@
 build-api:
-	@echo "Building API..."
-	cd code && python -m pip install -r requirements.txt
+[TAB]@echo "Building API..."
+[TAB]cd code && python -m pip install -r requirements.txt
 
 run-tests:
-	@echo "Running tests..."
-	cd code && python -m pytest
+[TAB]@echo "Running tests..."
+[TAB]cd code && python -m pytest
 
 lint-code:
-	@echo "Linting code..."
-	pylint code/
+[TAB]@echo "Linting code..."
+[TAB]pylint code/
 
 docker-build:
-	@echo "Building Docker image..."
-	cd code && docker build -t my-api-image .
+[TAB]@echo "Building Docker image..."
+[TAB]cd code && docker build -t my-api-image .
 
 docker-run:
-	@echo "Running Docker container..."
-	docker run -d --name my-api-container -p 80:8080 my-api-image
+[TAB]@echo "Running Docker container..."
+[TAB]docker run -d --name my-api-container -p 80:8080 my-api-image
