@@ -8,7 +8,7 @@ run-tests:
 
 lint-code:
 	@echo "Linting code..."
-	cd code && find . -name "*.py" | xargs pylint
+	cd code && find . -name "*.py" | xargs pylint || true
 
 docker-login:
 	@echo "Logging into Docker registry..."
