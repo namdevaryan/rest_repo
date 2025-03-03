@@ -4,7 +4,7 @@ build-api:
 
 run-tests:
 	@echo "Running tests..."
-	cd code && python -m pytest
+	cd code && python3 -m pytest
 
 lint-code:
 	@echo "Linting code..."
