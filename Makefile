@@ -16,7 +16,7 @@ docker-login:
 
 docker-build:
 	@echo "Building Docker image..."
-	docker build . -t aryan2001/my-api-image
+	docker build -f code/Dockerfile -t aryan2001/my-api-image
 
 docker-push:
 	@echo "Pushing Docker image..."
