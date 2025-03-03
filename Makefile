@@ -1,6 +1,6 @@
 build-api:
 	@echo "Building API..."
-	cd code && python -m pip install -r requirements.txt
+	cd code && python3 -m pip install -r requirements.txt
 
 run-tests:
 	@echo "Running tests..."
