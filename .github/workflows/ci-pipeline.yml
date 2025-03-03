@@ -15,29 +15,36 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: Build API
+      # Step 2: Ensure Python and pip are installed
+      - name: Install Python and pip
+        run: |
+          sudo apt update && sudo apt install -y python3 python3-pip
+          python3 -m ensurepip --default-pip
+          python3 -m pip install --upgrade pip
+      
+      # Step 3: Build API
       - name: Build API
         run: make build-api
 
-      # Step 3: Run tests
+      # Step 4: Run tests
       - name: Run tests
         run: make run-tests
 
-      # Step 4: Perform code linting
+      # Step 5: Perform code linting
       - name: Lint code
         run: make lint-code
 
-      # Step 5: Docker login
+      # Step 6: Docker login
       - name: Docker login
         run: make docker-login
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
-      # Step 6: Docker build
+      # Step 7: Docker build
       - name: Docker build
         run: make docker-build
 
-      # Step 7: Docker push
+      # Step 8: Docker push
       - name: Docker push
         run: make docker-push
