@@ -12,7 +12,7 @@ lint-code:
 
 docker-login:
 	@echo "Logging into Docker registry..."
-	docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
+	echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin
 
 docker-build:
 	@echo "Building Docker image..."
